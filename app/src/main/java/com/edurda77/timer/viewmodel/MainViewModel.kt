@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.edurda77.timer.model.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 @OptIn(InternalCoroutinesApi::class)
 class MainViewModel : ViewModel() {
@@ -33,7 +34,7 @@ class MainViewModel : ViewModel() {
                     + SupervisorJob()
         ).launch {
             stopwatchListOrchestrator.ticker.collect {
-                liveData.value=it
+                liveData.value = it
             }
         }
     }

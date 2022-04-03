@@ -9,7 +9,7 @@ import com.edurda77.timer.viewmodel.MainViewModel
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    lateinit var viewModel: MainViewModel
+    private val viewModel =  MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
