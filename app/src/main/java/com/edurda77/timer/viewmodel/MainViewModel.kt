@@ -2,12 +2,13 @@ package com.edurda77.timer.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.edurda77.timer.model.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 
-@OptIn(InternalCoroutinesApi::class)
-class MainViewModel : ViewModel() {
+
+class MainViewModel : ViewModel(), ViewModelContract {
     private val timestampProvider = object : TimestampProvider {
         override fun getMilliseconds(): Long {
             return System.currentTimeMillis()
@@ -29,25 +30,21 @@ class MainViewModel : ViewModel() {
         )
     )
     init {
-        CoroutineScope(
-            Dispatchers.Main
-                    + SupervisorJob()
-        ).launch {
+        viewModelScope.launch {
             stopwatchListOrchestrator.ticker.collect {
                 liveData.value = it
-            }
-        }
+        }}
     }
 
-    fun startTimer() {
+    override fun startTimer() {
         stopwatchListOrchestrator.start()
     }
 
-    fun stopTimer() {
+    override fun stopTimer() {
         stopwatchListOrchestrator.stop()
     }
 
-    fun pauseTimer() {
+    override fun pauseTimer() {
         stopwatchListOrchestrator.pause()
     }
 
